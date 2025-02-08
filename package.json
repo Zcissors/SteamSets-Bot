@@ -1,0 +1,26 @@
+{
+  "name": "dhs",
+  "version": "1.0.0",
+  "description": "Steamsets.com discord bot",
+  "main": "src/main.ts",
+  "scripts": {
+    "build": "tsc",
+    "start": "node build/client.js"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@discordjs/rest": "^2.4.2",
+    "@steamsets/client-ts": "^0.17.1",
+    "consola": "^3.4.0",
+    "discord-api-types": "^0.37.119",
+    "discord.js": "^14.17.3",
+    "discordx": "^11.12.2",
+    "dotenv": "^16.4.7",
+    "reflect-metadata": "^0.2.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.1",
+    "typescript": "^5.7.3"
+  }
+}
