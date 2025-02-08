@@ -7,7 +7,9 @@ SteamSets-Bot is a script designed to automate the management of Steam game sets
 - Automated game set management
 - Easy to configure and use
 - Regular updates and maintenance
+## Dependencies
 
+- [@steamsets/client-ts](https://www.npmjs.com/package/@steamsets/client-ts): A TypeScript client for interacting with SteamSets API.
 ## Installation
 
 1. Clone the repository:
