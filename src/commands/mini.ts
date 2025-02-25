@@ -1,53 +1,65 @@
-import { CommandInteraction, EmbedBuilder, CommandInteractionOptionResolver } from 'discord.js';
+import { CommandInteraction, CommandInteractionOptionResolver } from 'discord.js';
 import { SteamSets } from '@steamsets/client-ts';
 import { Command } from '../types/Command';
 
 export const mini: Command = {
     name: 'mini',
-    description: 'Get Steam mini profile information',
-    options: [{
-        name: 'vanity',
-        type: 3,
-        description: 'Steam vanity URL name',
-        required: true
-    }],
+    allowedChannels: [`${process.env.allowedChannel}`],
+    description: 'Get SteamSets mini profile information',
+    options: [
+        {
+            name: 'vanity',
+            type: 3,
+            description: 'Steamsets vanity URL or SteamID64',
+            required: false
+        },
+        {
+            name: 'steamid',
+            type: 3,
+            description: 'SteamID64',
+            required: false
+        }
+    ],
     async execute(interaction: CommandInteraction) {
         const steamSets = interaction.client.steamSets as SteamSets;
         await interaction.deferReply();
 
         try {
-            const vanityName = (interaction.options as CommandInteractionOptionResolver).getString('vanity');
+            const vanity = (interaction.options as CommandInteractionOptionResolver).getString('vanity');
+            const steamId = (interaction.options as CommandInteractionOptionResolver).getString('steamid');
             
-            if (!vanityName) {
-                await interaction.editReply('Please provide a valid vanity URL name!');
-                return;
-            }
+            if (vanity) {
+                const result = await steamSets.account.accountV1GetMeta({
+                    "vanity": {
+                        type: "internal",
+                        value: vanity
+                    }
+                });
+                if (result.v1AccountMetaResponseBody?.steamId) {
+                    const steamId = result.v1AccountMetaResponseBody.steamId;
+                    const imageUrl = `https://cdn.steamsets.com/og/account/${steamId}.png`;
 
-            const result = await steamSets.account.accountV1GetMeta({
-                "vanity": {
-                    type: "internal",
-                    value: vanityName
+                    await interaction.editReply({
+                        content: imageUrl,
+                    });
+                    console.log('Profile image:', imageUrl);
+                } else {
+                    await interaction.editReply('No profile image found for this user.');
                 }
-            });
+            } else if (steamId) {
+                const imageUrl = `https://cdn.steamsets.com/og/account/${steamId}.png`;
 
-            if (!result.v1AccountMetaResponseBody?.ogImage) {
-                await interaction.editReply('No profile image found for this user.');
-                return;
+                await interaction.editReply({
+                    content: imageUrl,
+                });
+                console.log('Profile image:', imageUrl);
+            } else {
+                await interaction.editReply('Please provide a valid vanity URL name or SteamID64.');
             }
-
-            const imageBuffer = Buffer.from(result.v1AccountMetaResponseBody.ogImage, 'base64');
-            
-            // Send the image directly with optional metadata as text
-            await interaction.editReply({
-                files: [{
-                    attachment: imageBuffer,
-                    name: 'profile.png'
-                }],
-            });
 
         } catch (error) {
             console.error('Error fetching Steam mini profile:', error);
-            await interaction.editReply('Failed to fetch Steam mini profile information. Please check the vanity URL name and try again.');
+            await interaction.editReply('Failed to fetch Steam mini profile information. Please check the vanity URL name or SteamID64 and try again.');
         }
     }
 };

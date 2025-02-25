@@ -6,6 +6,7 @@ import { commands } from './index';
 export const help: Command = {
     name: 'help',
     description: 'Lists all available commands',
+    allowedChannels: [`${process.env.allowedChannel}`],
     async execute(interaction: CommandInteraction) {
         const embed = new EmbedBuilder()
             .setColor('#2B5F75')

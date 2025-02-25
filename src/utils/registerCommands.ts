@@ -14,6 +14,10 @@ export async function registerCommands() {
             options: command.options
         }));
 
+        if (!config.token || !config.clientId || !config.guildId) {
+            throw new Error('Missing configuration values for token, clientId, or guildId');
+        }
+
         const rest = new REST({ version: '10' }).setToken(config.token);
 
         await rest.put(

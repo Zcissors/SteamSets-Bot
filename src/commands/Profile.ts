@@ -6,6 +6,7 @@ import { formatProfileEmbed } from '../utils/formatters';
 
 export const Profile: Command = {
     name: 'profile',
+    allowedChannels: [`${process.env.allowedChannel}`],
     description: 'Get SteamSets profile information',
     options: [{
         name: 'vanity',

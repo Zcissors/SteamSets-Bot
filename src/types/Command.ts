@@ -12,5 +12,6 @@ export interface Command {
     name: string;
     description: string;
     options?: CommandOption[];
+    allowedChannels?: string[];
     execute: (interaction: CommandInteraction) => Promise<void>;
 }
