@@ -19,6 +19,7 @@ async function main() {
         intents: [
             GatewayIntentBits.Guilds,
             GatewayIntentBits.GuildMessages,
+            GatewayIntentBits.MessageContent,
         ]
     });
     
@@ -70,7 +71,12 @@ async function main() {
         }
     });
 
+    client.on('messageCreate', async (message) => {
+        console.log(message);
+    });
+
     await client.login(config.token);
-}
+}  
 
 main().catch(console.error);
+

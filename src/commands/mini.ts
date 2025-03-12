@@ -29,13 +29,13 @@ export const mini: Command = {
             const steamId = (interaction.options as CommandInteractionOptionResolver).getString('steamid');
             
             if (vanity) {
-                const result = await steamSets.account.accountV1GetMeta({
+                const result = await steamSets.account.getMeta({
                     "vanity": {
                         type: "internal",
                         value: vanity
                     }
                 });
-                if (result.v1AccountMetaResponseBody?.steamId) {
+                if (result.v1AccountMetaResponseBody) {
                     const steamId = result.v1AccountMetaResponseBody.steamId;
                     const imageUrl = `https://cdn.steamsets.com/og/account/${steamId}.png`;
 

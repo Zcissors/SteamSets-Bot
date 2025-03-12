@@ -30,7 +30,7 @@ export const BadgeInfo: Command = {
                 return;
             } else {
                 consola.log('AppID:', appId);
-                const result = await steamSets.app.appV1ListBadges({ appId: Number(appId) });
+                const result = await steamSets.app.listBadges({ appId: Number(appId) });
                 if (!result.v1AppBadgeListResponseBody || !result.v1AppBadgeListResponseBody.badges) {
                     await interaction.editReply('No badge information found.');
                     return;
@@ -204,7 +204,7 @@ export const BadgeInfo: Command = {
         }
         catch (error) {
             console.error('Error getting badge information:', error);
-            await interaction.editReply('Error getting badge information: ' + (error as Error).title);
+            await interaction.editReply('Error getting badge information: ' + (error as Error).name);
         }
     }
 };
