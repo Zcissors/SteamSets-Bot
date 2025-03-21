@@ -49,7 +49,7 @@ async function main() {
         if (!command) return;
     
         // Check if command is allowed in this channel
-        if (!isAllowedChannel(interaction, command.allowedChannels)) {
+        if (!isAllowedChannel(interaction)) {
             const allowedChannels = command.allowedChannels
                 ?.map(id => `<#${id}>`)
                 .join(', ');
@@ -71,9 +71,9 @@ async function main() {
         }
     });
 
-    client.on('messageCreate', async (message) => {
-        console.log(message);
-    });
+    // client.on('messageCreate', async (message) => {
+    //     console.log(message);
+    // });
 
     await client.login(config.token);
 }  

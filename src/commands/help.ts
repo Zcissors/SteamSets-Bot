@@ -2,6 +2,7 @@
 import { CommandInteraction, EmbedBuilder, InteractionReplyOptions } from 'discord.js';
 import { Command } from '../types/Command';
 import { commands } from './index';
+import { sendQuietMessage } from '../utils/channels';
 
 export const help: Command = {
     name: 'help',
@@ -35,6 +36,10 @@ export const help: Command = {
             embeds: [embed],
         };
 
-        await interaction.reply(replyOptions);
+        // Option 1: If sendQuietMessage expects a string message and options separately
+        //await sendQuietMessage(interaction, "", { embeds: [embed] });
+        
+        // Option 2: If you need to reply directly without sendQuietMessage
+        await sendQuietMessage(interaction, "", { embeds: [embed] });
     }
 };

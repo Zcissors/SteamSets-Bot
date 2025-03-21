@@ -28,7 +28,7 @@ export const update: Command = {
                 return;
             }
 
-            const result = await steamSets.accounts.queue({
+            await steamSets.account.queue({
                 force: false,
                 "vanity": {
                     type: "internal",
