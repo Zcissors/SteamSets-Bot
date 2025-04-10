@@ -21,21 +21,18 @@ export const BadgeInfo: Command = {
         const steamSets = interaction.client.steamSets as SteamSets;
         await interaction.deferReply();
         try {
-            const appId = (interaction.options as CommandInteractionOptionResolver).getString('appid');
+            const badgeID = (interaction.options as CommandInteractionOptionResolver).getString('appid');
             
-            if (!appId) {
+            if (!badgeID || isNaN(Number(badgeID))) {
                 await interaction.editReply({
                     content: 'Please provide a valid AppID!'
                 });
                 return;
             } else {
-                consola.log('AppID:', appId);
-                const result = await steamSets.app.listBadges({ appId: Number(appId) });
-                if (!result.v1AppBadgeListResponseBody || !result.v1AppBadgeListResponseBody.badges) {
-                    await interaction.editReply('No badge information found.');
-                    return;
-                }
-                const badges = result.v1AppBadgeListResponseBody.badges;
+                consola.log('AppID:', badgeID);
+                const result = await steamSets.apps.listBadges({ appId : Number(badgeID) });
+                //consola.log('Badge information:', result.v1AppListBadgesResponseBody?.badges ?? 'No badge information available');
+                const badges = result.v1AppListBadgesResponseBody?.badges ?? [];
                 const nonFoilBadges = badges.filter(badge => !badge.isFoil).sort((a, b) => a.highestLevel - b.highestLevel);
                 const foilBadges = badges.filter(badge => badge.isFoil);
 
@@ -69,7 +66,7 @@ export const BadgeInfo: Command = {
                     ctx.fillStyle = '#FFFFFF';
                     ctx.font = '30px Sans';
                     ctx.textAlign = 'center';
-                    const titleText = `${badges.length > 0 ? badges[0].appName : 'Unknown App'}`;
+                    const titleText = `${badges && badges.length > 0 ? badges[0].appName : 'Unknown App'}`;
                     const maxWidth = canvas.width - 40; // 20px padding on each side
                     const lineHeight = 30;
                     const words = titleText.split(' ');
@@ -120,7 +117,7 @@ export const BadgeInfo: Command = {
                         
                         try {
                             // Load and draw the badge image
-                            const image = await loadImage(`https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/items/${appId}/${badge.image}`);
+                            const image = await loadImage(`https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/items/${badgeID}/${badge.image}`);
                             ctx.drawImage(image, xPosition, yPosition, badgeWidth, badgeHeight);
                             
                             // Set font style for text
@@ -159,7 +156,7 @@ export const BadgeInfo: Command = {
                             badgeNameY += 16; // Move to next line for scarcity information
                             // Display scarcity information
                             if (badge.scarcity !== undefined && badge.scarcity !== null) {
-                                ctx.fillText(`Scarcity: ${badge.scarcity}`, xPosition + badgeWidth / 2, badgeNameY);
+                                ctx.fillText(`Scarcity: ${badge.scarcity.toLocaleString()}`, xPosition + badgeWidth / 2, badgeNameY);
                             }
                         } catch (imageError) {
                             // If image loading fails, log the error and show a placeholder

@@ -35,14 +35,14 @@ export const mini: Command = {
                         value: vanity
                     }
                 });
-                if (result.v1AccountMetaResponseBody) {
-                    const steamId = result.v1AccountMetaResponseBody.steamId;
+                if (result.v1AccountGetMetaResponseBody) {
+                    const steamId = result.v1AccountGetMetaResponseBody.steamId;
                     const imageUrl = `https://cdn.steamsets.com/og/account/${steamId}.png`;
 
                     await interaction.editReply({
                         content: imageUrl,
                     });
-                    console.log('Profile image:', imageUrl);
+                    //console.log('Profile image:', imageUrl);
                 } else {
                     await interaction.editReply('No profile image found for this user.');
                 }

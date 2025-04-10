@@ -42,7 +42,7 @@ export const Profile: Command = {
 
             // Log the API response for debugging
             console.log('SteamSets API Response:', JSON.stringify(result, null, 2));
-            const embedInfo = result.v1AccountInfoResponseBody;
+            const embedInfo = result.v1AccountGetInfoResponseBody;
             const embed = formatProfileEmbed(embedInfo);
             await interaction.editReply({ embeds: [embed] });
         } catch (error) {

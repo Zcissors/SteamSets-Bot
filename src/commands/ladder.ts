@@ -3,6 +3,7 @@ import { CommandInteraction, EmbedBuilder, CommandInteractionOptionResolver } fr
 import { SteamSets } from '@steamsets/client-ts';
 import { Command } from '../types/Command';
 import consola from 'consola';
+import { ErrorDetail$outboundSchema, errorDetailFromJSON } from '@steamsets/client-ts/models/components';
 
 export const ladder: Command = {
     name: 'ladder',
@@ -17,7 +18,7 @@ export const ladder: Command = {
                 leaderboard: "xp",
             });
 
-            if (!result.v1AccountLeaderboardResponseBody?.accounts) {
+            if (!result.v1LeaderboardGetAccountLeaderboardResponseBody?.accounts) {
                 await interaction.editReply('No leaderboard data found.');
                 return;
             }
@@ -30,7 +31,7 @@ export const ladder: Command = {
 
             try {
                 // Format leaderboard entries
-                const leaderboardEntries = result.v1AccountLeaderboardResponseBody?.accounts.map((account, index) => {
+                const leaderboardEntries = result.v1LeaderboardGetAccountLeaderboardResponseBody?.accounts.map((account, index) => {
                     const rank = index + 1;
                     const medal = rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : '🏅';
                     return {

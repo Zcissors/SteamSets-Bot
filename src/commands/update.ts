@@ -1,6 +1,7 @@
 import { CommandInteraction, CommandInteractionOptionResolver } from 'discord.js';
 import { SteamSets } from '@steamsets/client-ts';
 import { Command } from '../types/Command';
+import consola from 'consola';
 
 export const update: Command = {
     name: 'update',
@@ -28,8 +29,8 @@ export const update: Command = {
                 return;
             }
 
-            await steamSets.account.queue({
-                force: false,
+            await steamSets.account.queueUpdate({
+                force: true,
                 "vanity": {
                     type: "internal",
                     value: vanityName
@@ -44,6 +45,7 @@ export const update: Command = {
                     content: 'Rate limit exceeded. Please try again later.'
                 });
             } else {
+                consola.error('Error updating Steam profile:', error);
                 await interaction.editReply({
                     content: 'Failed to update Steam profile information. Please check the vanity URL name and try again.'
                 });
