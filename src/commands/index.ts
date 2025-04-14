@@ -6,6 +6,7 @@ import { help } from './help';
 import { ladder } from './ladder';
 import { update } from './update';
 import { BadgeInfo} from './badge';
+import { stats } from './stats';
 
 export const commands: Command[] = [
     Profile,
@@ -13,5 +14,6 @@ export const commands: Command[] = [
     help,
     ladder,
     update,
-    BadgeInfo
+    BadgeInfo,
+    stats
 ];

@@ -8,7 +8,7 @@ const { createCanvas, loadImage } = require('canvas');
 export const BadgeInfo: Command = {
     name: 'badge',
     allowedChannels: [`${process.env.allowedChannel}`],
-    description: 'Gets information about a Steam badge',
+    description: 'Provides badge information for a specific AppID',
     options: [
         {
             name: 'appid',

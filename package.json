@@ -5,13 +5,13 @@
   "main": "src/main.ts",
   "scripts": {
     "build": "tsc",
-    "start": "node build/client.js"
+    "start": "node ./src/index.ts"
   },
   "author": "",
   "license": "MIT",
   "dependencies": {
     "@discordjs/rest": "^2.4.2",
-    "@steamsets/client-ts": "^0.25.7",
+    "@steamsets/client-ts": "^0.25.13",
     "canvas": "^3.1.0",
     "consola": "^3.4.0",
     "discord-api-types": "^0.37.119",
@@ -21,6 +21,7 @@
     "reflect-metadata": "^0.2.2"
   },
   "devDependencies": {
+    "@types/bun": "latest",
     "@types/node": "^22.13.1",
     "typescript": "^5.7.3"
   }

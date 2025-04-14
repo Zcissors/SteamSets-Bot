@@ -24,6 +24,8 @@ async function main() {
     });
     
     await checkAndUpdateSteamSetsClientVersion();
+    await registerCommands();
+
 
     try {
         client.steamSets = await initializeSteamSets();
@@ -39,7 +41,7 @@ async function main() {
 
     client.once(Events.ClientReady, async () => {
         consola.success('Bot is ready!');
-        await registerCommands();
+        
     });
 
     client.on(Events.InteractionCreate, async interaction => {
